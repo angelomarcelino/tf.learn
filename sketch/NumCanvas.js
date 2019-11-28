@@ -4,13 +4,14 @@ class NumCanvas {
     this.pixelSize = PIXEL_SIZE;
     this.offset = (MAIN_CANVAS_SIZE - this.canvasSize * this.pixelSize) / 2;
 
-    this.values = [];
+    this.pixel = [];
+    this.flatenedPixels = [];
     let posY = 0;
     for (let i = 0; i < this.canvasSize; i++) {
-      this.values[i] = [];
+      this.pixel[i] = [];
       let posX = 0;
       for (let j = 0; j < this.canvasSize; j++) {
-        this.values[i][j] = {
+        this.pixel[i][j] = {
           value: 0,
           x: this.offset + posX,
           y: this.offset + posY
@@ -21,20 +22,22 @@ class NumCanvas {
     }
   }
 
+
   draw() {
     translate(this.offset, this.offset);
     let posY = 0;
     for (let i = 0; i < this.canvasSize; i++) {
       let posX = 0;
       for (let j = 0; j < this.canvasSize; j++) {
-        constrain(this.values[i][j].value, 0, 1);
-        fill(this.values[i][j].value * 255);
+        constrain(this.pixel[i][j].value, 0, 1);
+        fill(this.pixel[i][j].value * 255);
         stroke(127);
         rect(posX, posY, this.pixelSize, this.pixelSize);
         posX += this.pixelSize;
       }
       posY += this.pixelSize;
     }
+    this.flatenedPixels = this.pixel.flat();
   }
 
   paintNearest(x, y) {
@@ -43,7 +46,7 @@ class NumCanvas {
     let jBest = 0;
     for (let i = 0; i < this.canvasSize; i++) {
       for (let j = 0; j < this.canvasSize; j++) {
-        let d = dist(x, y, this.values[i][j].x, this.values[i][j].y);
+        let d = dist(x, y, this.pixel[i][j].x, this.pixel[i][j].y);
         if (d < minDist) {
           minDist = d;
           iBest = i;
@@ -58,14 +61,14 @@ class NumCanvas {
         let newj = j + jBest - 1;
         if (newi > 0 && newi < this.canvasSize) {
           if (newj > 0 && newj < this.canvasSize) {
-            if (this.values[newi][newj].value < 0.3)
-              this.values[newi][newj].value += 0.05;
+            if (this.pixel[newi][newj].value < 0.3)
+              this.pixel[newi][newj].value += 0.05;
           }
         }
       }
     }
-    // if (jBest + 1 < this.canvasSize - 1 &&  this.values[iBest][jBest].value != 1)
-    //     this.values[iBest][jBest + 1].value += 0.1;
-    this.values[iBest][jBest].value = 1;
+    // if (jBest + 1 < this.canvasSize - 1 &&  this.pixel[iBest][jBest].value != 1)
+    //     this.pixel[iBest][jBest + 1].value += 0.1;
+    this.pixel[iBest][jBest].value = 1;
   }
 }
