@@ -40,6 +40,14 @@ class NumCanvas {
     this.flatenedPixels = this.pixel.flat();
   }
 
+  clearCanvas(){
+    for(let i=0; i < this.canvasSize; i++){
+      for(let j=0; j < this.canvasSize; j++){
+        this.pixel[i][j].value = 0;
+      }
+    }
+  }
+
   paintNearest(x, y) {
     let minDist = Infinity;
     let iBest = 0;
