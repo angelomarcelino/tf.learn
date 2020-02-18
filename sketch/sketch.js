@@ -4,7 +4,7 @@ const PIXEL_SIZE = 10;
 
 let numCanvas;
 
-let entry;
+let trainingData;
   
 // let trainingEntry = { "data": [] };
 // let cont = 0;
@@ -29,29 +29,22 @@ const NNoptions = {
 	epochs: 32,
 }
 
-let neuralNetwork = ml5.neuralNetwork(NNoptions);
+let neuralNetwork;
 
 function preload() {
-	entry = loadJSON('trainingData/xizis.json', Array);
-}
-
-function whileTraining(epoch, loss){
-	console.log(`epoch: ${epoch}, loss:${loss}`);
-}
-function doneTraining(){
-	  console.log('done!');
+	trainingData = loadJSON('trainingData/xizis.json', Array);
 }
 
 function setup() {
 	createCanvas(MAIN_CANVAS_SIZE, MAIN_CANVAS_SIZE);
 	numCanvas = new NumCanvas(CANVAS_SIZE, PIXEL_SIZE);
+	neuralNetwork = ml5.neuralNetwork(NNoptions);
 	background(127);
 	for (let i = 0; i < 100; i++){
-		neuralNetwork.addData(entry.data[i].xs,entry.data[i].ys);
+		neuralNetwork.addData(trainingData.data[i].xs,trainingData.data[i].ys);
 	}
 	
 }
-
 
 function draw() {
 	background(127);
@@ -82,7 +75,7 @@ function keyPressed(){
 		}
 		dataData.ys = ysNum;
 
-		trainingEntry.data.push(dataData);
+		trainingtrainingData.data.push(dataData);
 		numCanvas.clearCanvas();
 		
 		dataSize++;
@@ -116,4 +109,12 @@ function gotResults(error, results) {
 	  return;
 	}
 	console.log(results);
+}
+
+function whileTraining(epoch, loss){
+	console.log(`epoch: ${epoch}, loss:${loss}`);
+}
+
+function doneTraining(){
+	  console.log('done!');
 }

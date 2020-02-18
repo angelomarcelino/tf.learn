@@ -5,7 +5,7 @@ function setup() {
 	createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 	background(0);
 
-	net = new Network([3, 7, 12]);
+	net = new Network([28, 5, 10]);
 
 	// const data = tf.tensor([0, 0, 127, 255], [2, 2]);
 	// data.print();
